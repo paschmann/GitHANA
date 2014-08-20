@@ -21,4 +21,3 @@ Install
 - Click Import from File
 - Browse to the downloaded file
 - Edit the index.html file and specify your github username/password
-
