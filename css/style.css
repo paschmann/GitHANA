@@ -1,0 +1,287 @@
+html {
+  min-width: 320px;
+} 
+
+body {
+  background: #101215;
+  color: #6f7b8a;
+  font-weight: 300;
+  min-width: 320px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.full-lg #wrapper, body.full-lg #main {
+  margin: 0;
+  padding: 0;
+}
+
+#btn1, #btn2 {
+    display: none;
+}
+
+#imgTable{
+    margin-left:auto; 
+    margin-right:auto;
+    margin: 20px;
+    width: 100%;
+}
+
+.center {
+    text-align: center;   
+}
+
+#filesystem{
+    margin: 0; 
+    padding: 0;
+}
+
+#cboRepo, #cboBranch{
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+input, select{
+    font-size: 12px;
+    width: 100%;
+    padding: 5px;
+}
+
+ul {
+  list-style: none;
+  padding-left: 5px;
+}
+
+hr {
+    border-color: #262A33;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #262A33;
+}
+
+.nav-tabs > li > a {
+    color: #C1C1C1;
+}
+
+/* active tab color */
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+  background-color: #262A33;
+  border-color: #262A33;
+  color: #2A89C1;
+}
+
+/* hover tab color */
+.nav-tabs > li > a:hover {
+  border-color: #262A33;
+  background-color: #262A33;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: 300;
+  margin: 0;
+}
+
+a {
+  color: #2a89c1;
+}
+a:hover {
+  color: #0067a8;
+  text-decoration: none;
+}
+a.toggle-column-hide {
+  color: #cccccc !important;
+  text-decoration: line-through;
+}
+
+label {
+  color: #A1A1A1;
+  font-family: "Arial", sans-serif;
+  font-size: 12px;
+}
+
+
+.logo-area {
+  background-color: #262a33;
+  border-bottom: 5px #191c21 solid;
+  float: left;
+  height: 55px;
+  position: relative;
+  text-align: center;
+  width: 270px;
+  display: block;
+  z-index: 5;
+  color: #FFF;
+}
+
+a.logo {
+  background: url(../img/logo_white.png) no-repeat center center;
+  display: block;
+  height: 50px;
+  position: relative;
+}
+
+#content {
+  padding: 10px 30px 0;
+}
+
+#wrapper {
+  background: #20242b;
+  height: 100%;
+  min-width: 320px;
+  overflow: hidden;
+  right: 0;
+}
+
+#main {
+  background: #e5e9ec;
+  height: 100%;
+  left: 0;
+  margin-left: 270px;
+  overflow: auto;
+  /* overflow-x: hidden; */
+  padding-top: 55px;
+  position: absolute;
+  right: 0;
+  -webkit-transition: -webkit-transform 0.5s, padding-top 0.5s;
+  transition: transform 0.5s, padding-top 0.5s;
+  z-index: 9;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+#header {
+  background: white;
+  border-bottom: 5px #2A89C1 solid;
+  height: 55px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 15;
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: transform 0.5s;
+}
+#header .tools-bar {
+  margin-left: 250px;
+  padding: 0 15px 0 0;
+}
+#header .tools-bar ul li.h-seperate {
+  border-left: 1px solid #eeeeee;
+  height: 50px;
+}
+#header .tools-bar ul li a {
+  -webkit-transition: all 0.25s;
+  -moz-transition: all 0.25s;
+  transition: all 0.25s;
+  color: #A1A1A1;
+  line-height: 50px;
+  padding: 0 15px;
+}
+#header .tools-bar ul.nav li a:hover {
+  color: #C1C1C1;
+}
+#header .tools-bar ul li a.h-seperate:before {
+  border-left: 1px solid #62707D;
+  content: "";
+  height: 14px;
+  left: -10px;
+  margin: 0px 10px 0px 10px;
+  position: absolute;
+  top: 19px;
+}
+#header .tools-bar a.icon-toolsbar {
+  color: #2a89c1;
+  font-size: 21px;
+  padding: 0 25px;
+}
+#header .tools-bar ul li button {
+  width: 34px;
+  height: 34px;
+  text-align: center;
+  padding: 0;
+  background-color: #f6f6f6;
+  border-color: #f6f6f6;
+}
+
+#nav {
+    background-color: #1b1e24;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    transition: all 0.5s ease 0s;
+    width: 270px;
+    z-index: 2;
+}
+
+
+#nav-scroll {
+    height: 100%;
+    /*
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-bottom: 200px;
+    */
+    overflow: auto;
+    padding-top: 55px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 20px;
+    position: absolute;
+    width: 270px;
+    color: #2a89c1;
+    font-size: 12px;
+}
+
+#hanapackage{
+    font-size: 11px;
+}
+
+#navstep {
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+/* Loading animation */
+/* Animation keyframes - you need to add prefixes */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+ 
+/* Loading animation container */
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 28px;
+    height: 28px;
+    margin: -14px 0 0 -14px;
+    display: none;
+}
+ 
+/* Spinning circle (inner circle) */
+.loading .maskedCircle {
+    width: 20px;
+    height: 20px;
+    border-radius: 12px;
+    border: 3px solid white;
+}
+ 
+/* Spinning circle mask */
+.loading .mask {
+    width: 12px;
+    height: 12px;
+    overflow: hidden;
+}
+ 
+/* Spinner */
+.loading .spinner {
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    width: 26px;
+    height: 26px;
+    animation: spin 1s infinite linear;
+}
