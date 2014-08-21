@@ -3,7 +3,7 @@
 <html class="no-js">
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>GitHANA <></title>
+        <title>Git <> HANA</title>
         <script src="lib/base64.js"></script>
         <script src="lib/jquery.min.js"></script>
         <script src="lib/underscore-min.js"></script>
@@ -24,7 +24,7 @@
         var HanaPackage = "lilabs/metric2/";       /*    lilabs/metric2/    */
         var gitUsername = "paschmann";
         var gitPassword = "p9909711";
-        
+
         var csrf;
         var repo;    
         var hanaData;
@@ -65,6 +65,35 @@
                     $('#header .tools-bar').css("margin-left","250px");
                 }
             });
+            
+            $(document).on("click", ".hanafolder", function(event) {
+                        event.stopPropagation();
+                        if ($(this).children().find('li').length > 0){
+                            $(this).children().find('li').remove();
+                        } else {
+                            loadHanaPackageContents($(this).data('ref'), $(this));
+                        }
+            });
+                    
+            $(document).on("click", ".hanapage", function(event) {
+                        event.stopPropagation();
+                        clearResults();
+                        var filename = $(this).data('ref');
+                        getFile(filename);
+                        //compareFiles(selectedViewType);
+            });
+            
+            $(document).on("click", ".folder", function(event) {
+                $(this).next('ul').find('> li').slideToggle('slow');
+            });
+            
+            $(document).on("click", ".page", function(event) {
+                event.stopPropagation();
+                clearResults();
+                    var filename = $(this).data('ref');
+                    getFile(filename);
+                    //compareFiles(selectedViewType);
+                });
             
         }
         
@@ -109,8 +138,6 @@
             
         function loadRepoContents(repoName, repoBranch){
             repo = github.getRepo(gitUsername, repoName);
-            
-            
             repo.getTree(repoBranch + '?recursive=true', function(err, tree) {
                 var depth = 0;
                 var foldername = "";
@@ -141,16 +168,7 @@
                 
                 $('#filesystem').html(html);
                 
-                $('.folder').click(function() {
-                    $(this).next('ul').find('> li').slideToggle('slow');
-                });
                 
-                $('.page').click(function() {
-                    clearResults();
-                    var filename = $(this).data('ref');
-                    getFile(filename);
-                    compareFiles(selectedViewType);
-                });
             });
         }
         
@@ -184,11 +202,11 @@
                         foldername = parser.pathname;
                                 
                         var vis = 'block'; //(depth > 1 ? "none" : "");
-                                
+                                var relativepath = files.children[obj].uri.replace(HanaPackage,'');
                         if (files.children[obj].rel == "folder"){
-                            html2 += "<li class='hanafolder' data-id='0' style='display: " + vis + "' data-ref='" + HanaPackage + files.children[obj].uri.split("/").slice(files.children[obj].uri.split("/").length - 1) + "'><i class='fa fa-folder'></i><a href='#'>  " + files.children[obj].uri.split("/").slice(files.children[obj].uri.split("/").length - 1) + "</a></li>";
+                            html2 += "<li class='hanafolder' data-id='0' style='display: " + vis + "' data-ref='" + HanaPackage + relativepath + "'><i class='fa fa-folder'></i><a href='#'>  " + files.children[obj].uri.split("/").slice(files.children[obj].uri.split("/").length - 1) + "</a></li>";
                         } else {
-                            var relativepath = files.children[obj].uri.replace(HanaPackage,'');
+                            
                             html2 += "<li class='hanapage' data-id='1' style='display: " + vis + "' data-ref='" + relativepath + "'><i class='fa fa-file-code-o'></i><a href='#'>  " + relativepath + "</a></li>";
                         }
                     });
@@ -198,19 +216,7 @@
                     $("#loadspinner").css('display','none');
                     $(obj).append(html2);
                             
-                    $('.hanafolder').click(function(event) {
-                        $(this).children().find('li').remove();
-                        loadHanaPackageContents($(this).data('ref'), $(this));
-                        $(this).unbind( "click", handler );
-                    });
                     
-                    $('.hanapage').click(function(event) {
-                        event.stopPropagation();
-                        clearResults();
-                        var filename = $(this).data('ref');
-                        getFile(filename);
-                        compareFiles(selectedViewType);
-                    });
                     
                 },
                 error: function (err){
@@ -239,31 +245,41 @@
             if (typeof repo === 'undefined'){
                 alert("Please select a Github repository");
             } else {
-                $("#loadspinner").css('display','block');
-                $.get( HanaRepoService + "?path=" + HanaPackage +  hanafilename, function( data1 ) {
-                    hanaData = data1;
-                    repo.read($('#RepoBranch').val(), filename, function(err, data2) {
-                        if (err != null){
-                            gitData = "Error getting file from Github Repository, please check file exists.";
-                        } else {
+                if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(filename)){
+                    var img = $('<img id="gitimg">');
+                    img.attr('src', 'https://raw.githubusercontent.com/' + gitUsername + '/' + $('#GitRepo').val() + '/' + $('#RepoBranch').val() + '/' + filename);
+                    var img2 = $('<img id="hanaimg">');
+                    img2.attr('src', '/' + HanaPackage +  hanafilename);
+                    $('#results').html('<table id="imgTable"><tr><td class="center">Hana</td><td class="center">Github</td></tr><tr><td id="img1" class="center"></td><td id="img2" class="center"></td></tr></table>');
+                    $('#img1').html(img);
+                    $('#img2').html(img2);
+                } else {
+                    $("#loadspinner").css('display','block');
+                    $.get( HanaRepoService + "?path=" + HanaPackage +  hanafilename, function( data1 ) {
+                        hanaData = data1;
+                        repo.read($('#RepoBranch').val(), filename, function(err, data2) {
+                            if (err != null){
+                                gitData = "Error getting file from Github Repository, please check file exists.";
+                            } else {
+                                gitData = data2;
+                            }
+                            $('#btn1').show();
+                            $('#btn2').show();
+                            compareFiles(0);
+                            $("#loadspinner").css('display','none');
+                        });
+                    }).fail(function() {
+                        hanaData = 'Error getting file from HANA Repository, please check file exists.';
+                        repo.read($('#RepoBranch').val(), filename, function(err, data2) {
                             gitData = data2;
-                        }
-                        $('#btn1').show();
-                        $('#btn2').show();
-                        compareFiles(0);
-                        $("#loadspinner").css('display','none');
+                            $('#btn1').show();
+                            compareFiles(0);
+                            $("#loadspinner").css('display','none');
+                            $('#btn2').hide();
+                        });
+        
                     });
-                }).fail(function() {
-                    hanaData = 'Error getting file from HANA Repository, please check file exists.';
-                    repo.read($('#RepoBranch').val(), filename, function(err, data2) {
-                        gitData = data2;
-                        $('#btn1').show();
-                        compareFiles(0);
-                        $("#loadspinner").css('display','none');
-                        $('#btn2').hide();
-                    });
-    
-                });
+                }
             }
         }
                 
@@ -277,7 +293,7 @@
                     repo.write($('#RepoBranch').val(), $('#filename').html(), hanaData, comment, function(err) {
                         $("#loadspinner").css('display','none');
                         getFile($('#filename').html());
-                        
+                        loadRepoContents($('#GitRepo').val(), $('#RepoBranch').val());
                     });
                 }
             }
@@ -390,6 +406,7 @@
                             data: data,
                             success: function (msg) {
                                 $("#loadspinner").css('display','none');
+                                //reload HANA file system
                             },
                             error: function (err){
                                 $("#loadspinner").css('display','none');
