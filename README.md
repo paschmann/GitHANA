@@ -1,4 +1,4 @@
-![dlh.png](http://metric2.com/img/dlh.png)
+![githana_bg.jpg](http://metric2.com/img/githana_bg.jpg)
 
 GitHANA
 =======
