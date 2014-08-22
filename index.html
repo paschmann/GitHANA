@@ -245,15 +245,19 @@
             if (typeof repo === 'undefined'){
                 alert("Please select a Github repository");
             } else {
+                var isimg = false;
+                
                 if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(filename)){
                     var img = $('<img id="gitimg">');
                     img.attr('src', 'https://raw.githubusercontent.com/' + gitUsername + '/' + $('#GitRepo').val() + '/' + $('#RepoBranch').val() + '/' + filename);
                     var img2 = $('<img id="hanaimg">');
                     img2.attr('src', '/' + HanaPackage +  hanafilename);
                     $('#results').html('<table id="imgTable"><tr><td class="center">Hana</td><td class="center">Github</td></tr><tr><td id="img1" class="center"></td><td id="img2" class="center"></td></tr></table>');
-                    $('#img1').html(img);
-                    $('#img2').html(img2);
-                } else {
+                    $('#img1').html(img2);
+                    $('#img2').html(img);
+                    isimg = true;
+                }
+                
                     $("#loadspinner").css('display','block');
                     $.get( HanaRepoService + "?path=" + HanaPackage +  hanafilename, function( data1 ) {
                         hanaData = data1;
@@ -265,7 +269,9 @@
                             }
                             $('#btn1').show();
                             $('#btn2').show();
-                            compareFiles(0);
+                            if (!isimg){
+                                compareFiles(0);
+                            }
                             $("#loadspinner").css('display','none');
                         });
                     }).fail(function() {
@@ -273,13 +279,14 @@
                         repo.read($('#RepoBranch').val(), filename, function(err, data2) {
                             gitData = data2;
                             $('#btn1').show();
-                            compareFiles(0);
+                            if (!isimg){
+                                compareFiles(0);
+                            }
                             $("#loadspinner").css('display','none');
                             $('#btn2').hide();
                         });
         
                     });
-                }
             }
         }
                 
