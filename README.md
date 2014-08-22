@@ -1,5 +1,5 @@
 <p align="center">
-![githana_bg.jpg](http://metric2.com/img/githana_bg.jpg)
+[githana_bg.jpg](http://metric2.com/img/githana_bg.jpg)
 </p>
 
 GitHANA
