@@ -3,9 +3,7 @@
 GitHANA
 =======
 
-A native SAP HANA application for comparing and commiting files directly from the Web UI. Here is a small video of the usage of the app & you can download the app package here.
-
-Features of Git <> HANA
+A native SAP HANA XS application (read web app) for comparing and commiting GitHub files directly from the Web UI. Essentially a GitHub GitHub Web Client. You can read more about the app [here](http://scn.sap.com/community/developer-center/hana/blog/2014/08/22/git-hana--a-free-open-source-github-client-for-sap-hana). 
 
 - Compare files between HANA and Github
 - Compare inline or side by side
