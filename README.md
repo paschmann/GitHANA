@@ -1,15 +1,23 @@
+![dlh.png](http://metric2.com/img/dlh.png)
+
 GitHANA
 =======
 
 A native SAP HANA application for comparing and commiting files directly from the Web UI. Here is a small video of the usage of the app & you can download the app package here.
 
+Features of Git <> HANA
+
 - Compare files between HANA and Github
 - Compare inline or side by side
-- Commit files to Github directly from the Web UI
+- Commit files from HANA to GitHub
+- Commit/activate files from GitHub to HANA
+- Repo/branch selection
 - Native HANA application
 - Easy HANA package installation
 - Open source
-- handles .xs* (e.g. .xsaccess, .xsapp) files
+- handles .xs* (e.g. .xsaccess, .xsapp) files (which your file system probably does not like!)
+- Image comparison
+- File browsing can be done via the GitHub repo or your HANA package
 
 
 Install
