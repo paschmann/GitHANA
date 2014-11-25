@@ -19,11 +19,13 @@
         
         
         <script type="text/javascript">
+        
         var HanaRepoService = "http://metric2.us.to:8000/sap/hana/xs/ide/editor/server/repo/reposervice.xsjs"; /* SPS07 - http://yourserver:8000/sap/hana/xs/ide/editor/server/repo/reposervice.xsjs */
         var HanaCSRFService = "http://metric2.us.to:8000/sap/hana/xs/ide/editor/server/csrf.xsjs"
         var HanaPackage = "lilabs/metric2/";       /*    lilabs/metric2/    */
         var gitUsername = "yourusername";
-        var gitPassword = "yourpassword";
+        var gitPassword = "password";
+        var gitEmail = "me@me.com";
 
         var csrf;
         var repo;    
@@ -42,7 +44,8 @@
             github = new Github({
               username: gitUsername,
               password: gitPassword,
-              auth: "basic"
+              auth: "basic",
+              email: gitEmail
             });
             loadRepoList();
             $('#hanapackage').val(HanaPackage);
@@ -92,7 +95,6 @@
                 clearResults();
                     var filename = $(this).data('ref');
                     getFile(filename);
-                    //compareFiles(selectedViewType);
                 });
             
         }
@@ -110,7 +112,6 @@
                 
                 s.change(function() {
                     $('#filesystem').html('');
-                    //loadRepoContents($(this).val());
                     loadRepoBranchList($(this).val());
                 });
                 
@@ -167,8 +168,6 @@
                 });
                 
                 $('#filesystem').html(html);
-                
-                
             });
         }
         
@@ -201,8 +200,9 @@
                         depth = files.children[obj].uri.split("/").length;
                         foldername = parser.pathname;
                                 
-                        var vis = 'block'; //(depth > 1 ? "none" : "");
-                                var relativepath = files.children[obj].uri.replace(HanaPackage,'');
+                        var vis = 'block';
+                        var relativepath = files.children[obj].uri.replace(HanaPackage,'');
+                        
                         if (files.children[obj].rel == "folder"){
                             html2 += "<li class='hanafolder' data-id='0' style='display: " + vis + "' data-ref='" + HanaPackage + relativepath + "'><i class='fa fa-folder'></i><a href='#'>  " + files.children[obj].uri.split("/").slice(files.children[obj].uri.split("/").length - 1) + "</a></li>";
                         } else {
@@ -215,9 +215,6 @@
                     
                     $("#loadspinner").css('display','none');
                     $(obj).append(html2);
-                            
-                    
-                    
                 },
                 error: function (err){
                     $("#loadspinner").css('display','none');
@@ -426,6 +423,11 @@
                 });
         }
         
+        function openRepo(){
+            var win = window.open('https://github.com/' + gitUsername, '_blank');
+            win.focus();
+        }
+        
         
         function downloadGit(){
             $('#modal-header').html("Download Git Repository to HANA");
@@ -471,6 +473,7 @@
                     <li class="hidden-xs hidden-sm"><a href="#" onclick="compareFiles(0);" id="btnSidetoSide" class="h-seperate" onClick="" title="Compare Side by Side"><i class="fa fa-columns"></i></a></li>
                     <li class="hidden-xs hidden-sm"><a href="#" onclick="compareFiles(1);" id="btnInline" class="h-seperate" title="Compare Inline"><i class="fa fa-align-justify"></i></a></li>
                     <li class="hidden-xs hidden-sm"><a href="#" onclick="showSettings();" id="btnInline" class="h-seperate" title="Compare Inline"><i class="fa fa-gear"></i></a></li>
+                    <li class="hidden-xs hidden-sm"><a href="#" onClick="openRepo();" id="btnOpenRepo" class="h-seperate" title="Open repo"><i class="fa fa-git"></i></a></li>
                     <!-- Version 2 feature experimental 
                     <li class="hidden-xs hidden-sm"><a href="#" onclick="downloadGit();" id="btnInline" class="h-seperate" title="Download Repository to HANA"><i class="fa fa-git"></i> <i class="fa fa-cloud-download"></i></a></li>
                     -->
