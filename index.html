@@ -17,15 +17,15 @@
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
         <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
         
-        
         <script type="text/javascript">
         
-        var HanaRepoService = "http://metric2.us.to:8000/sap/hana/xs/ide/editor/server/repo/reposervice.xsjs"; /* SPS07 - http://yourserver:8000/sap/hana/xs/ide/editor/server/repo/reposervice.xsjs */
-        var HanaCSRFService = "http://metric2.us.to:8000/sap/hana/xs/ide/editor/server/csrf.xsjs"
-        var HanaPackage = "lilabs/metric2/";       /*    lilabs/metric2/    */
+        //var HanaRepoService = "http://metric2.us.to:8000/sap/hana/xs/ide/editor/server/repo/reposervice.xsjs"; /* SPS07 - http://yourserver:8000/sap/hana/xs/ide/editor/server/repo/reposervice.xsjs */
+        var HanaRepoService = "/sap/hana/xs/dt/base/file/"
+        var HanaCSRFService = "/sap/hana/ide/common/remote/server/csrf.xsjs"
+        var HanaPackage = "lilabs/github/";       /*    lilabs/metric2/    */
         var gitUsername = "yourusername";
-        var gitPassword = "password";
-        var gitEmail = "me@me.com";
+        var gitPassword = "yourpassword";
+        var gitEmail = "youremail";
 
         var csrf;
         var repo;    
@@ -177,38 +177,31 @@
             }
             $.ajax({
                 type: "GET",
-                //contentType: "text/plain; charset=UTF-8",
-                //headers: { 'X-CSRF-Token': csrf, 'activate': activate },
-                url: HanaRepoService + "?path=" + path,
+                url: HanaRepoService + path + "?depth=1",
                 success: function (files) {
-                    var depth = 0;
-                    var foldername = "";
+                    var prevObjectDepth = 0;
                     var html2 = "";
+                    
+                    $.each(files["Children"], function(obj) {
+                        var relativepath = this.Location.replace(HanaRepoService + HanaPackage,'');
+                        var objectDepth = relativepath.split("/").length;
                         
-                    $.each(files.children, function(obj) {
-                        var parser = document.createElement('a');
-                        parser.href = files.children[obj].uri;
-                            
-                        if (files.children[obj].uri.split("/").length > depth){
+                        if (objectDepth > prevObjectDepth){
                             html2 += "<ul>";
-                        } else if (files.children[obj].uri.split("/").length < depth) {
-                            var diff = depth - files.children[obj].uri.split("/").length;
+                        } else if (objectDepth < prevObjectDepth) {
+                            var diff = prevObjectDepth - objectDepth;
                             for (var i = 1; i <= diff; i++){
                                 html2 += "</ul>";
                             }
                         } 
-                        depth = files.children[obj].uri.split("/").length;
-                        foldername = parser.pathname;
-                                
-                        var vis = 'block';
-                        var relativepath = files.children[obj].uri.replace(HanaPackage,'');
                         
-                        if (files.children[obj].rel == "folder"){
-                            html2 += "<li class='hanafolder' data-id='0' style='display: " + vis + "' data-ref='" + HanaPackage + relativepath + "'><i class='fa fa-folder'></i><a href='#'>  " + files.children[obj].uri.split("/").slice(files.children[obj].uri.split("/").length - 1) + "</a></li>";
+                        if (this.Directory === true){
+                            html2 += "<li class='hanafolder' data-id='0' style='display: block' data-ref='" + this.ContentLocation + "'><i class='fa fa-folder'></i><a href='#'>  " + this.Name + "</a></li>";
                         } else {
-                            
-                            html2 += "<li class='hanapage' data-id='1' style='display: " + vis + "' data-ref='" + relativepath + "'><i class='fa fa-file-code-o'></i><a href='#'>  " + relativepath + "</a></li>";
+                            html2 += "<li class='hanapage' data-id='1' style='display: block' data-ref='" + relativepath + "'><i class='fa fa-file-code-o'></i><a href='#'>  " + this.Name + "</a></li>";
                         }
+                        
+                        prevObjectDepth = objectDepth;
                     });
             
                     html2 += "</ul>";
@@ -256,7 +249,9 @@
                 }
                 
                     $("#loadspinner").css('display','block');
-                    $.get( HanaRepoService + "?path=" + HanaPackage +  hanafilename, function( data1 ) {
+                    //$.get( HanaRepoService + "?path=" + HanaPackage +  hanafilename, function( data1 ) {
+                    var hanafilename = HanaRepoService + HanaPackage + hanafilename;
+                    $.get( hanafilename, function( data1 ) {
                         hanaData = data1;
                         repo.read($('#RepoBranch').val(), filename, function(err, data2) {
                             if (err != null){
@@ -266,6 +261,7 @@
                             }
                             $('#btn1').show();
                             $('#btn2').show();
+                            $('#btn3').show();
                             if (!isimg){
                                 compareFiles(0);
                             }
@@ -281,6 +277,7 @@
                             }
                             $("#loadspinner").css('display','none');
                             $('#btn2').hide();
+                            $('#btn3').hide();
                         });
         
                     });
@@ -298,6 +295,19 @@
                         $("#loadspinner").css('display','none');
                         getFile($('#filename').html());
                         loadRepoContents($('#GitRepo').val(), $('#RepoBranch').val());
+                    });
+                }
+            }
+        }
+        
+        function deleteFromGitHub(){
+            var r = confirm("Are you sure you want to delete this file from your Github repository?");
+            if (r == true) {
+                var comment = prompt("Please enter a comment", "Delete " + $('#filename').html());
+                if (comment != null) {
+                    $("#loadspinner").css('display','block');
+                    repo.remove($('#RepoBranch').val(), $('#filename').html(), function(err) {
+                        $("#loadspinner").css('display','none');
                     });
                 }
             }
@@ -406,11 +416,11 @@
                             type: "PUT",
                             contentType: "text/plain; charset=UTF-8",
                             headers: { 'X-CSRF-Token': csrf, 'activate': activate },
-                            url: HanaRepoService + "?path=" + HanaPackage +  path,
+                            url: HanaRepoService + HanaPackage +  path,
                             data: data,
                             success: function (msg) {
                                 $("#loadspinner").css('display','none');
-                                //reload HANA file system
+                                getFile(path);
                             },
                             error: function (err){
                                 $("#loadspinner").css('display','none');
@@ -470,6 +480,7 @@
                     <li class="hidden-xs hidden-sm"><a href="../../sap/hana/xs/ide/editor/" target="_blank" id="btnInline" title="Open Editor"><i class="fa fa-list-alt"></i></a></li>
                     <li class="hidden-xs hidden-sm" id="btn1"><a href="#" onClick="saveConfirm();" id="btnSaveToHana" class="h-seperate" title="Commit Github file to HANA"><i class="fa fa-dropbox"></i> <i class="fa fa-angle-right"></i> <i class="fa fa-save"></i></a></li>
                     <li class="hidden-xs hidden-sm" id="btn2"><a href="#" onClick="saveToGitHub();" id="btnSaveToGit" class="h-seperate" title="Commit HANA file to Github"><i class="fa fa-save"></i> <i class="fa fa-angle-right"></i> <i class="fa fa-git"></i></a></li>
+                    <li class="hidden-xs hidden-sm" id="btn3"><a href="#" onClick="deleteFromGitHub();" id="btnDeleteFromGit" class="h-seperate" title="Delete file from Github"><i class="fa fa-trash-o"></i> <i class="fa fa-angle-right"></i> <i class="fa fa-git"></i></a></li>
                     <li class="hidden-xs hidden-sm"><a href="#" onclick="compareFiles(0);" id="btnSidetoSide" class="h-seperate" onClick="" title="Compare Side by Side"><i class="fa fa-columns"></i></a></li>
                     <li class="hidden-xs hidden-sm"><a href="#" onclick="compareFiles(1);" id="btnInline" class="h-seperate" title="Compare Inline"><i class="fa fa-align-justify"></i></a></li>
                     <li class="hidden-xs hidden-sm"><a href="#" onclick="showSettings();" id="btnInline" class="h-seperate" title="Compare Inline"><i class="fa fa-gear"></i></a></li>
