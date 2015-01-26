@@ -13,6 +13,14 @@ A native SAP HANA application for comparing and commiting files directly from th
 - Open source
 - handles .xs* (e.g. .xsaccess, .xsapp) files
 
+Revisions
+=======
+
+- Release 1.0
+Supports SAP HANA <= SPS08
+
+- Release 2.0
+Supports SAP HANA >= SPS09
 
 Install
 =======
