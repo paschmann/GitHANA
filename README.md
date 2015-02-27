@@ -22,12 +22,21 @@ Supports SAP HANA <= SPS08
 - Release 2.0
 Supports SAP HANA >= SPS09
 
+- Release 2.1
+Supports defining your Github API endpoint (Useful for enterprise GitHub customers)
+
 Install
 =======
 
-- Download the package
+Option 1
+
+- Download the package from here [URL](http://www.metric2.com/metric2-downloads/)
 - Open Lifecycle manager (http://<HANA_SERVER>:PORT/sap/hana/xs/lm/)
 - Click on Import/Export menu
 - Click Import from File
 - Browse to the downloaded file
-- Edit the index.html file and specify your github username/password
+- Edit the index.html file and specify your github api, hana verison, username/password
+
+Option 2
+- Download/fork this repo
+- upload from eclipse or the webIDE
