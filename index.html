@@ -19,13 +19,14 @@
         
         <script type="text/javascript">
         
-        //var HanaRepoService = "http://metric2.us.to:8000/sap/hana/xs/ide/editor/server/repo/reposervice.xsjs"; /* SPS07 - http://yourserver:8000/sap/hana/xs/ide/editor/server/repo/reposervice.xsjs */
-        var HanaRepoService = "/sap/hana/xs/dt/base/file/"
-        var HanaCSRFService = "/sap/hana/ide/common/remote/server/csrf.xsjs"
-        var HanaPackage = "lilabs/github/";       /*    lilabs/metric2/    */
-        var gitUsername = "yourusername";
-        var gitPassword = "yourpassword";
-        var gitEmail = "youremail";
+        /* var HanaRepoService = "http://yourserver:8000/sap/hana/xs/ide/editor/server/repo/reposervice.xsjs" /* SPS07/SPS08  */
+        var HanaRepoService = "/sap/hana/xs/dt/base/file/"; /* SPS09 */
+        var HanaCSRFService = "/sap/hana/ide/common/remote/server/csrf.xsjs";
+        var HanaPackage = "lilabs/metric2/";
+        var gitUsername = "your github user";
+        var gitPassword = "your password";
+        var gitEmail = "your github email";
+        var gitAPI = "https://api.github.com"; /* Public Git API */
 
         var csrf;
         var repo;    
@@ -45,7 +46,8 @@
               username: gitUsername,
               password: gitPassword,
               auth: "basic",
-              email: gitEmail
+              email: gitEmail,
+              api: gitAPI
             });
             loadRepoList();
             $('#hanapackage').val(HanaPackage);
