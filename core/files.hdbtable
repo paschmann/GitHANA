@@ -1,0 +1,9 @@
+table.schemaName = "githana";
+table.tableType = COLUMNSTORE;
+table.columns = [
+    {name = "run_location"; sqlType = VARCHAR; nullable = false; length = 1000;},
+    {name = "commited_version"; sqlType = INTEGER; nullable = false;},
+    {name = "gitrepo"; sqlType = VARCHAR; nullable = false; length = 250;},
+    {name = "branch"; sqlType = VARCHAR; nullable = false; length = 250;} 
+];
+table.primaryKey.pkcolumns = ["run_location"];
