@@ -1,0 +1,7 @@
+role lilabs.github.core::admin
+{
+sql object lilabs.github.core::files: //Objecttype: TABLE
+	SELECT, INSERT, UPDATE, DELETE;
+
+
+}
