@@ -25,6 +25,9 @@ Supports SAP HANA >= SPS09
 - Release 2.1
 Supports defining your Github API endpoint (Useful for enterprise GitHub customers)
 
+- Release 2.2
+Has a small local DB schema and table which holds committed version data. This allows us to show which files are different between your repo and hana package.
+
 Install
 =======
 
@@ -35,7 +38,8 @@ Option 1
 - Click on Import/Export menu
 - Click Import from File
 - Browse to the downloaded file
-- Edit the index.html file and specify your github api, hana verison, username/password
+- Edit the lib/hanagit.js file and specify your github api, hana verison, username/password
+- Make sure your user has the security role: lilabs.github.core::admin
 
 Option 2
 - Download/fork this repo
