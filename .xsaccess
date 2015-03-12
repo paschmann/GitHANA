@@ -1,4 +1,1 @@
-{
-  "exposed" : true,
-  "authentication" : null
-}
+{"exposed":true,"authentication":{"method":"Form"}}
