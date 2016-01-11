@@ -28,6 +28,9 @@ Supports defining your Github API endpoint (Useful for enterprise GitHub custome
 - Release 2.2
 Has a small local DB schema and table which holds committed version data. This allows us to show which files are different between your repo and hana package.
 
+- Release 2.3
+Changes to the .hdb files to handle case sensativity
+
 Install
 =======
 
