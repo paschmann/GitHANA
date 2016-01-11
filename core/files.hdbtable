@@ -1,4 +1,4 @@
-table.schemaName = "githana";
+table.schemaName = "GITHANA"; 
 table.tableType = COLUMNSTORE;
 table.columns = [
     {name = "run_location"; sqlType = VARCHAR; nullable = false; length = 1000;},
