@@ -1,7 +1,7 @@
 GitHANA
 =======
 
-![img](http://scn.sap.com/servlet/JiveServlet/downloadImage/38-112364-525261/526-400/Git-HANA-Screenshot.jpg)
+![img](https://github.com/paschmann/GitHANA/blob/master/img/git_hana_screenshot_525261.jpg)
 
 A native SAP HANA application for comparing and commiting files directly from the Web UI. Read more here: [link to SAP community network blog](http://scn.sap.com/community/developer-center/hana/blog/2014/08/22/git-hana--a-free-open-source-github-client-for-sap-hana)
 
